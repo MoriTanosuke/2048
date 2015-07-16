@@ -50,7 +50,29 @@ public class Playfield {
         tiles.add(tile);
     }
 
-    public void moveTile(int x, int y, Direction direction) {
+    /**
+     * Moves all {@link Tile}s on the Playfield.
+     */
+    public void move(final Direction direction) {
+        // move all fields, starting top left
+        for (int x = 0; x < maxX; x++) {
+            for (int y = 0; y < maxY; y++) {
+                moveTile(x, y, direction);
+            }
+        }
+    }
+
+    /**
+     * Move one {@link Tile} on the Playfield in a {@link Direction}.
+     *
+     * @param tileX     xposition on Playfield
+     * @param tileY     yposition on Playfield
+     * @param direction one of {@link Direction#UP}, {@link Direction#DOWN}, {@link Direction#LEFT}, {@link Direction#RIGHT}
+     */
+    public void moveTile(final int tileX, final int tileY, final Direction direction) {
+        int x = tileX;
+        int y = tileY;
+
         Tile tile = getTile(x, y);
 
         if (tile == null) {

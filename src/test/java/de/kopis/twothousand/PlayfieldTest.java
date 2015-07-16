@@ -38,7 +38,6 @@ public class PlayfieldTest {
         final String s1 = dump(grid);
         assertEquals("XXXX\nXXXX\nXXXX\nXXX2\n", s1);
 
-        // UP - x=2,y=3
         grid.moveTile(3, 3, Playfield.Direction.UP);
         final String s2 = dump(grid);
         assertEquals("XXX2\nXXXX\nXXXX\nXXXX\n", s2);
@@ -46,7 +45,6 @@ public class PlayfieldTest {
         assertEquals(originalTile.value, t1.value);
         assertTrue(grid.getTile(3, 3) == null);
 
-        // DOWN, x=3,y=3 again
         grid.moveTile(0, 3, Playfield.Direction.DOWN);
         final String s3 = dump(grid);
         assertEquals("XXXX\nXXXX\nXXXX\nXXX2\n", s3);
@@ -54,7 +52,6 @@ public class PlayfieldTest {
         assertEquals(originalTile.value, t2.value);
         assertTrue(grid.getTile(2, 3) == null);
 
-        // LEFT, x=3,y=2
         grid.moveTile(3, 3, Playfield.Direction.LEFT);
         final String s4 = dump(grid);
         assertEquals("XXXX\nXXXX\nXXXX\n2XXX\n", s4);
@@ -62,13 +59,54 @@ public class PlayfieldTest {
         assertEquals(originalTile.value, t3.value);
         assertTrue(grid.getTile(3, 3) == null);
 
-        //RIGHT, x=3,y=3 again
         grid.moveTile(3, 0, Playfield.Direction.RIGHT);
         final String s5 = dump(grid);
         assertEquals("XXXX\nXXXX\nXXXX\nXXX2\n", s5);
         final Tile t4 = grid.getTile(3, 3);
         assertEquals(originalTile.value, t4.value);
         assertTrue(grid.getTile(3, 0) == null);
+    }
+
+    @Test
+    public void playfieldCanMoveATileUntilBlockedByAnotherTile() throws IOException {
+        final Playfield grid = new Playfield(4);
+        final Tile originalTile = new Tile(3, 3, 2);
+        grid.addTile(originalTile);
+        final Tile blockingTile = new Tile(0, 3, 4);
+        grid.addTile(blockingTile);
+
+        final String s1 = dump(grid);
+        assertEquals("XXX4\nXXXX\nXXXX\nXXX2\n", s1);
+
+        grid.moveTile(3, 3, Playfield.Direction.UP);
+        final String s2 = dump(grid);
+        assertEquals("XXX4\nXXX2\nXXXX\nXXXX\n", s2);
+        final Tile t1 = grid.getTile(0, 3);
+        assertEquals(blockingTile.value, t1.value);
+        final Tile t2 = grid.getTile(1, 3);
+        assertEquals(originalTile.value, t2.value);
+    }
+
+    @Test
+    public void playfieldCanMoveAllTiles() throws IOException {
+        final Playfield grid = new Playfield(4);
+        final Tile originalTile = new Tile(3, 3, 2);
+        grid.addTile(originalTile);
+        final Tile blockingTile = new Tile(0, 3, 4);
+        grid.addTile(blockingTile);
+
+        final String s1 = dump(grid);
+        assertEquals("XXX4\nXXXX\nXXXX\nXXX2\n", s1);
+
+        // move the whole playfield
+        grid.move(Playfield.Direction.UP);
+
+        final String s2 = dump(grid);
+        assertEquals("XXX4\nXXX2\nXXXX\nXXXX\n", s2);
+        final Tile t1 = grid.getTile(0, 3);
+        assertEquals(blockingTile.value, t1.value);
+        final Tile t2 = grid.getTile(1, 3);
+        assertEquals(originalTile.value, t2.value);
     }
 
     @Test
@@ -92,11 +130,11 @@ public class PlayfieldTest {
     @Test
     public void playfieldCanMoveATileOnAnotherTileWithSameValue() {
         final Playfield grid = new Playfield(4);
-        grid.addTile(new Tile(2, 3, 2));
+        grid.addTile(new Tile(0, 3, 2));
         grid.addTile(new Tile(3, 3, 2));
         grid.moveTile(3, 3, Playfield.Direction.UP);
 
-        final Tile t = grid.getTile(2, 3);
+        final Tile t = grid.getTile(0, 3);
         assertEquals(4, t.value);
         assertTrue(grid.getTile(3, 3) == null);
     }
