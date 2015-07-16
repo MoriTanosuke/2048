@@ -2,6 +2,12 @@
 
 First run for a simple ASCII 2048 game.
 
+# Run this game
+
+Open a command line and execute
+
+    mvn compile exec:java
+
 ## Open issues
 
 * Random tiles are added anywhere, should be only at the field border
