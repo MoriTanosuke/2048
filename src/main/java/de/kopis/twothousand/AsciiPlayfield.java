@@ -9,7 +9,7 @@ public class AsciiPlayfield {
     /**
      * @see #print(OutputStream, Playfield)
      */
-    public void print(OutputStream out, Playfield pf) throws IOException {
+    public void print(final OutputStream out, final Playfield pf) throws IOException {
         print(new PrintWriter(out), pf);
     }
 
@@ -19,7 +19,7 @@ public class AsciiPlayfield {
      * @param out {@link Writer} to use for printing. Is flushed after playfield is written.
      * @throws IOException
      */
-    public void print(Writer out, Playfield pf) throws IOException {
+    public void print(final Writer out, final Playfield pf) throws IOException {
         for (int x = 0; x < pf.maxX; x++) {
             for (int y = 0; y < pf.maxY; y++) {
                 Tile t = pf.getTile(x, y);

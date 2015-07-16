@@ -6,13 +6,15 @@ import java.io.PrintWriter;
 
 public class Game {
     private final Playfield playfield;
+    private final AsciiPlayfield display;
 
     public static void main(String... args) throws IOException, InterruptedException {
         // TODO configure the playfield size via args later
-        new Game(4).start();
+        new Game(new AsciiPlayfield(), 4).start();
     }
 
-    public Game(int size) {
+    public Game(final AsciiPlayfield display, int size) {
+        this.display = display;
         playfield = new Playfield(size);
         playfield.addRandomTile();
     }
@@ -35,7 +37,7 @@ public class Game {
 
     private void printGame(final Playfield playfield, final OutputStream out) throws IOException {
         final PrintWriter pw = new PrintWriter(out);
-        new AsciiPlayfield().print(pw, playfield);
+        display.print(pw, playfield);
         pw.println("k = UP, j = DOWN, h = LEFT, l = RIGHT, q = QUIT");
         pw.flush();
     }
