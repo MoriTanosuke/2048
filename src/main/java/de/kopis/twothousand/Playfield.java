@@ -40,6 +40,12 @@ public class Playfield {
     }
 
     public void addTile(Tile tile) {
+        if (tile.x < 0) throw new IllegalArgumentException("'x' too small");
+        if (tile.y < 0) throw new IllegalArgumentException("'x' too small");
+
+        if (tile.x >= maxX) throw new IllegalArgumentException("'x' too large");
+        if (tile.y >= maxY) throw new IllegalArgumentException("'y' too large");
+
         logger.info(String.format("Adding tile value=%d at %d,%d", tile.value, tile.x, tile.y));
         tiles.add(tile);
     }
@@ -55,19 +61,26 @@ public class Playfield {
         // tile matched, now move to direction
         switch (direction) {
             case UP:
-                move(x, y, x, y - 1);
+                move(x, y, x - 1, y);
                 break;
             case DOWN:
-                move(x, y, x, y + 1);
+                move(x, y, x + 1, y);
                 break;
             case LEFT:
+                move(x, y, x, y - 1);
                 break;
             case RIGHT:
+                move(x, y, x, y + 1);
                 break;
         }
     }
 
     private void move(int x, int y, int newX, int newY) {
+        if (newX < 0) return;
+        if (newY < 0) return;
+        if (newX > maxX) return;
+        if (newY > maxY) return;
+
         Tile thisTile = getTile(x, y);
         int newValue = thisTile != null ? thisTile.value : 0;
 
