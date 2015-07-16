@@ -1,14 +1,15 @@
 package de.kopis.twothousand;
 
-import java.io.IOException;
-import java.io.Writer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Logger;
 
 public class Playfield {
-    private static final Logger logger = Logger.getLogger(Playfield.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(Playfield.class);
 
     public enum Direction {
         UP,
@@ -27,9 +28,15 @@ public class Playfield {
     }
 
     public void addRandomTile() {
-        Random r = new Random(System.nanoTime());
-        int x = 1 + r.nextInt(maxX - 1);
-        int y = 1 + r.nextInt(maxY - 1);
+        final Random r = new Random(System.nanoTime());
+
+        int x = 0;
+        int y = 0;
+        do {
+            x = 1 + r.nextInt(maxX - 1);
+            y = 1 + r.nextInt(maxY - 1);
+        } while (getTile(x, y) != null);
+
         logger.info(String.format("Adding random tile to %d,%d", x, y));
         addTile(new Tile(x, y, 2));
     }
@@ -39,26 +46,59 @@ public class Playfield {
         return tiles.size() <= maxX * maxY;
     }
 
-    public void addTile(Tile tile) {
-        if (tile.x < 0) throw new IllegalArgumentException("'x' too small");
-        if (tile.y < 0) throw new IllegalArgumentException("'x' too small");
-
-        if (tile.x >= maxX) throw new IllegalArgumentException("'x' too large");
-        if (tile.y >= maxY) throw new IllegalArgumentException("'y' too large");
-
-        logger.info(String.format("Adding tile value=%d at %d,%d", tile.value, tile.x, tile.y));
-        tiles.add(tile);
-    }
-
     /**
      * Moves all {@link Tile}s on the Playfield.
      */
     public void move(final Direction direction) {
-        // move all fields, starting top left
-        for (int x = 0; x < maxX; x++) {
-            for (int y = 0; y < maxY; y++) {
-                moveTile(x, y, direction);
-            }
+        logger.info("Moving playfield {}", direction);
+
+        // reset all moved tiles
+        for (Tile t : tiles) {
+            t.setMoved(false);
+        }
+
+        // move all fields, start point depends on direction
+        switch (direction) {
+            case DOWN:
+                for (int x = maxX; x >= 0; x--) {
+                    for (int y = 0; y < maxY; y++) {
+                        final Tile originalTile = getTile(x, y);
+                        do {
+                            moveTile(x, y, direction);
+                        } while (getTile(x, y) != null && originalTile != getTile(x, y));
+                    }
+                }
+                break;
+            case UP:
+                for (int x = 0; x < maxX; x++) {
+                    for (int y = 0; y < maxY; y++) {
+                        final Tile originalTile = getTile(x, y);
+                        do {
+                            moveTile(x, y, direction);
+                        } while (getTile(x, y) != null && originalTile != getTile(x, y));
+                    }
+                }
+                break;
+            case RIGHT:
+                for (int x = 0; x < maxX; x++) {
+                    for (int y = 0; y < maxY; y++) {
+                        final Tile originalTile = getTile(x, y);
+                        do {
+                            moveTile(x, y, direction);
+                        } while (getTile(x, y) != null && originalTile != getTile(x, y));
+                    }
+                }
+                break;
+            case LEFT:
+                for (int x = 0; x < maxX; x++) {
+                    for (int y = maxY; y >= 0; y--) {
+                        final Tile originalTile = getTile(x, y);
+                        do {
+                            moveTile(x, y, direction);
+                        } while (getTile(x, y) != null && originalTile != getTile(x, y));
+                    }
+                }
+                break;
         }
     }
 
@@ -69,14 +109,14 @@ public class Playfield {
      * @param tileY     yposition on Playfield
      * @param direction one of {@link Direction#UP}, {@link Direction#DOWN}, {@link Direction#LEFT}, {@link Direction#RIGHT}
      */
-    public void moveTile(final int tileX, final int tileY, final Direction direction) {
+    private void moveTile(final int tileX, final int tileY, final Direction direction) {
         int x = tileX;
         int y = tileY;
 
         Tile tile = getTile(x, y);
 
-        if (tile == null) {
-            // no tile found, nothing to move
+        if (tile == null || tile.isMoved()) {
+            // no tile found or tile already moved, nothing to move
             return;
         }
 
@@ -101,61 +141,97 @@ public class Playfield {
             if (t == null) break;
             x = t.x;
             y = t.y;
-        } while (t != null);
+        } while (true); // run until the inner break stops us
 
     }
 
-    private Tile move(int x, int y, int newX, int newY) {
-        if (newX < 0) return null;
-        if (newY < 0) return null;
-        if (newX >= maxX) return null;
-        if (newY >= maxY) return null;
+    private Tile move(final int x, final int y, final int newX, final int newY) {
+        if (newX < 0 || newY < 0 || newX >= maxX || newY >= maxY) {
+            Tile t = getTile(x, y);
+            t.setMoved(true);
+            return null;
+        }
 
-        Tile thisTile = getTile(x, y);
-        int newValue = thisTile != null ? thisTile.value : 0;
+        logger.info("Moving tile {},{} to {},{}", x, y, newX, newY);
 
-        Tile otherTile = getTile(newX, newY);
+        final Tile thisTile = getTile(x, y);
+        logger.debug("thisTile {}", thisTile);
+
+        if (thisTile.isMoved()) {
+            return null;
+        }
+
+        final Tile otherTile = getTile(newX, newY);
         Tile newTile = null;
         if (otherTile != null) {
-            if (thisTile.value == otherTile.value) {
-                newValue = thisTile.value + otherTile.value;
+            logger.debug("otherTile {}", otherTile);
+            if (thisTile != null && thisTile.value == otherTile.value) {
+                final int newValue = thisTile.value + otherTile.value;
                 newTile = new Tile(newX, newY, newValue);
+                newTile.setMoved(true);
+                logger.info("Replacing tile {}", otherTile, newTile);
                 removeTile(x, y);
                 addTile(newTile);
+            } else {
+                logger.info("Can not move tile {} to {}", thisTile, otherTile);
             }
         } else {
+            newTile = new Tile(newX, newY, thisTile != null ? thisTile.value : 0);
             removeTile(x, y);
-            newTile = new Tile(newX, newY, newValue);
             addTile(newTile);
+        }
+
+        try {
+            final ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            print(bos);
+            logger.info("Playfield state:\n{}", bos.toString());
+        } catch (IOException e) {
+            // just suppress log output
         }
 
         return newTile;
     }
 
-    private Tile removeTile(int x, int y) {
+    public void addTile(Tile tile) {
+        if (tile.x < 0) throw new IllegalArgumentException("'x' too small");
+        if (tile.y < 0) throw new IllegalArgumentException("'x' too small");
+
+        if (tile.x >= maxX) throw new IllegalArgumentException("'x' too large");
+        if (tile.y >= maxY) throw new IllegalArgumentException("'y' too large");
+
+        logger.info("Adding tile {}", tile);
+        Tile oldTile = getTile(tile.x, tile.y);
+        if (oldTile != null) {
+            logger.debug("There is already a tile {}", oldTile);
+            tiles.remove(oldTile);
+        }
+        tiles.add(tile);
+    }
+
+    private Tile removeTile(final int x, final int y) {
         for (Tile t : tiles.toArray(new Tile[0])) {
             if (t.x == x && t.y == y) {
-                logger.info(String.format("Removing tile at %d,%d", t.x, t.y));
+                logger.debug("Removing tile at {},{}", t.x, t.y);
                 tiles.remove(t);
                 return t;
             }
+            /*
+            else {
+                logger.debug("Not removing tile, because {},{}!={},{}", x, y, t.x, t.y);
+            }
+            */
         }
         return null;
     }
 
     public Tile getTile(int x, int y) {
-        Tile tile = null;
         for (Tile t : tiles) {
             if (t.x == x && t.y == y) {
-                tile = t;
+                logger.debug("Returning tile {}", t);
+                return t;
             }
         }
-        if (tile != null) {
-            logger.info(String.format("Tile value=%d at %d,%d", tile.value, tile.x, tile.y));
-        } else {
-            logger.info(String.format("No tile found at %d,%d", x, y));
-        }
-        return tile;
+        return null;
     }
 
     /**
@@ -169,13 +245,17 @@ public class Playfield {
             for (int y = 0; y < maxY; y++) {
                 Tile t = getTile(x, y);
                 if (t == null) {
-                    out.write("X");
+                    out.write("   X");
                 } else {
-                    out.write(Integer.toString(t.value));
+                    out.write(String.format("%4d", t.value));
                 }
             }
             out.write("\n");
         }
         out.flush();
+    }
+
+    public void print(OutputStream out) throws IOException {
+        print(new PrintWriter(out));
     }
 }
