@@ -78,8 +78,8 @@ public class Playfield {
     private void move(int x, int y, int newX, int newY) {
         if (newX < 0) return;
         if (newY < 0) return;
-        if (newX > maxX) return;
-        if (newY > maxY) return;
+        if (newX >= maxX) return;
+        if (newY >= maxY) return;
 
         Tile thisTile = getTile(x, y);
         int newValue = thisTile != null ? thisTile.value : 0;

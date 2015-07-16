@@ -72,6 +72,24 @@ public class PlayfieldTest {
         assertTrue(grid.getTile(3, 2) == null);
     }
 
+    @Test
+    public void playfieldCanNotMoveATileOutsideOfBounds() {
+        final Playfield grid = new Playfield(4);
+        grid.addTile(new Tile(0, 0, 2));
+        grid.addTile(new Tile(3, 3, 2));
+
+        // try to move the tile outside of the playfield
+        grid.moveTile(0, 0, Playfield.Direction.UP);
+        assertEquals(2, grid.getTile(0, 0).value);
+        grid.moveTile(0, 0, Playfield.Direction.LEFT);
+        assertEquals(2, grid.getTile(0, 0).value);
+
+        grid.moveTile(3, 3, Playfield.Direction.DOWN);
+        assertEquals(2, grid.getTile(3, 3).value);
+        grid.moveTile(3, 3, Playfield.Direction.RIGHT);
+        assertEquals(2, grid.getTile(3, 3).value);
+    }
+
     private String dump(Playfield grid) throws IOException {
         final ByteArrayOutputStream bos1 = new ByteArrayOutputStream();
         grid.print(new PrintWriter(bos1));
