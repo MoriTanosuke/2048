@@ -11,7 +11,8 @@ public class GameTest extends TestCase {
 
     @Test
     public void testASpecificState() throws IOException {
-        Playfield p = new Playfield(4);
+        final AsciiPlayfield ascii = new AsciiPlayfield();
+        final Playfield p = new Playfield(4);
 
         p.addTile(new Tile(0, 1, 2));
         p.addTile(new Tile(0, 2, 8));
@@ -26,7 +27,7 @@ public class GameTest extends TestCase {
         // X X X 4
         // X X X 2
         System.out.println();
-        p.print(new PrintWriter(System.out));
+        ascii.print(new PrintWriter(System.out), p);
         p.move(Playfield.Direction.RIGHT);
 
         // X X 2 16
@@ -34,7 +35,7 @@ public class GameTest extends TestCase {
         // X X X 4
         // X X X 2
         System.out.println("RIGHT");
-        p.print(new PrintWriter(System.out));
+        ascii.print(new PrintWriter(System.out), p);
 
         // X X X X
         // X X X 16
@@ -42,13 +43,14 @@ public class GameTest extends TestCase {
         // X X 2 2
         p.move(Playfield.Direction.DOWN);
         System.out.println("DOWN");
-        p.print(new PrintWriter(System.out));
+        ascii.print(new PrintWriter(System.out), p);
     }
 
 
     @Test
     public void testASpecificState2() throws IOException {
-        Playfield p = new Playfield(4);
+        final AsciiPlayfield ascii = new AsciiPlayfield();
+        final Playfield p = new Playfield(4);
 
         p.addTile(new Tile(0, 3, 2));
         p.addTile(new Tile(1, 3, 2));
@@ -60,7 +62,7 @@ public class GameTest extends TestCase {
         // X X X 2
         // X X X 2
         System.out.println();
-        p.print(new PrintWriter(System.out));
+        ascii.print(new PrintWriter(System.out), p);
         p.move(Playfield.Direction.DOWN);
 
         // X X X X
@@ -69,7 +71,7 @@ public class GameTest extends TestCase {
         // X X X 4
         System.out.println("DOWN");
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        p.print(new PrintWriter(bos));
+        ascii.print(new PrintWriter(bos), p);
         System.out.println(bos);
 
         assertEquals("   X   X   X   X\n   X   X   X   X\n   X   X   X   4\n   X   X   X   4\n", bos.toString());

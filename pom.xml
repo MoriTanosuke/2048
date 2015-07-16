@@ -25,6 +25,16 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <configuration>
+                    <workingDirectory>${project.build.directory}\classes</workingDirectory>
+                    <mainClass>de.kopis.twothousand.Game</mainClass>
+                    <includeProjectDependencies>true</includeProjectDependencies>
+                </configuration>
+            </plugin>
+            <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <source>1.8</source>

@@ -3,7 +3,6 @@ package de.kopis.twothousand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,8 +17,8 @@ public class Playfield {
         RIGHT
     }
 
-    private final int maxX;
-    private final int maxY;
+    public final int maxX;
+    public final int maxY;
     private List<Tile> tiles = new ArrayList<Tile>();
 
     public Playfield(int size) {
@@ -181,14 +180,6 @@ public class Playfield {
             addTile(newTile);
         }
 
-        try {
-            final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            print(bos);
-            logger.info("Playfield state:\n{}", bos.toString());
-        } catch (IOException e) {
-            // just suppress log output
-        }
-
         return newTile;
     }
 
@@ -232,30 +223,5 @@ public class Playfield {
             }
         }
         return null;
-    }
-
-    /**
-     * Prints the whole playfield using the given {@link Writer}.
-     *
-     * @param out {@link Writer} to use for printing. Is flushed after playfield is written.
-     * @throws IOException
-     */
-    public void print(Writer out) throws IOException {
-        for (int x = 0; x < maxX; x++) {
-            for (int y = 0; y < maxY; y++) {
-                Tile t = getTile(x, y);
-                if (t == null) {
-                    out.write("   X");
-                } else {
-                    out.write(String.format("%4d", t.value));
-                }
-            }
-            out.write("\n");
-        }
-        out.flush();
-    }
-
-    public void print(OutputStream out) throws IOException {
-        print(new PrintWriter(out));
     }
 }

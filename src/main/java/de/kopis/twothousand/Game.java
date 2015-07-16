@@ -1,6 +1,7 @@
 package de.kopis.twothousand;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 
 public class Game {
@@ -17,12 +18,10 @@ public class Game {
     }
 
     public void start() throws IOException, InterruptedException {
-        // get the console for user IO
-        final PrintWriter out = new PrintWriter(System.out);
-
         int line = '\0';
         // go into main game loop
         while ((line = System.in.read()) != 'q') {
+            printGame(playfield, System.out);
             //  parse line and move playfield
             final Playfield.Direction direction = parse(line);
             if (direction != null) {
@@ -31,10 +30,14 @@ public class Game {
             } else {
                 Thread.sleep(100);
             }
-            playfield.print(out);
-            out.println("k = UP, j = DOWN, h = LEFT, l = RIGHT, q = QUIT");
-            out.flush();
         }
+    }
+
+    private void printGame(final Playfield playfield, final OutputStream out) throws IOException {
+        final PrintWriter pw = new PrintWriter(out);
+        new AsciiPlayfield().print(pw, playfield);
+        pw.println("k = UP, j = DOWN, h = LEFT, l = RIGHT, q = QUIT");
+        pw.flush();
     }
 
     private Playfield.Direction parse(int line) {

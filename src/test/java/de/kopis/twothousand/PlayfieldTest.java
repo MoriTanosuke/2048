@@ -156,17 +156,9 @@ public class PlayfieldTest {
         assertEquals(2, t2.value);
     }
 
-    @Test
-    public void canPrintAPlayfield() throws IOException {
-        final Playfield p = new Playfield(4);
-        p.addTile(new Tile(1, 2, 8));
-        final String s = dump(p);
-        assertEquals("   X   X   X   X\n   X   X   8   X\n   X   X   X   X\n   X   X   X   X\n", s);
-    }
-
     private String dump(Playfield grid) throws IOException {
         final ByteArrayOutputStream bos1 = new ByteArrayOutputStream();
-        grid.print(new PrintWriter(bos1));
+        new AsciiPlayfield().print(new PrintWriter(bos1), grid);
         return bos1.toString();
     }
 }
