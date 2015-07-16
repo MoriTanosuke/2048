@@ -5,7 +5,6 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Writer;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertEquals;
@@ -31,7 +30,7 @@ public class PlayfieldTest {
     }
 
     @Test
-    public void playfieldCanMoveATileToEmptySpaces() throws IOException {
+    public void playfieldCanMoveATileThroughEmptySpaces() throws IOException {
         final Playfield grid = new Playfield(4);
         final Tile originalTile = new Tile(3, 3, 2);
         grid.addTile(originalTile);
@@ -42,34 +41,34 @@ public class PlayfieldTest {
         // UP - x=2,y=3
         grid.moveTile(3, 3, Playfield.Direction.UP);
         final String s2 = dump(grid);
-        assertEquals("XXXX\nXXXX\nXXX2\nXXXX\n", s2);
-        Tile t1 = grid.getTile(2, 3);
+        assertEquals("XXX2\nXXXX\nXXXX\nXXXX\n", s2);
+        final Tile t1 = grid.getTile(0, 3);
         assertEquals(originalTile.value, t1.value);
         assertTrue(grid.getTile(3, 3) == null);
 
         // DOWN, x=3,y=3 again
-        grid.moveTile(2, 3, Playfield.Direction.DOWN);
+        grid.moveTile(0, 3, Playfield.Direction.DOWN);
         final String s3 = dump(grid);
         assertEquals("XXXX\nXXXX\nXXXX\nXXX2\n", s3);
-        Tile t2 = grid.getTile(3, 3);
+        final Tile t2 = grid.getTile(3, 3);
         assertEquals(originalTile.value, t2.value);
         assertTrue(grid.getTile(2, 3) == null);
 
         // LEFT, x=3,y=2
         grid.moveTile(3, 3, Playfield.Direction.LEFT);
         final String s4 = dump(grid);
-        assertEquals("XXXX\nXXXX\nXXXX\nXX2X\n", s4);
-        Tile t3 = grid.getTile(3, 2);
+        assertEquals("XXXX\nXXXX\nXXXX\n2XXX\n", s4);
+        final Tile t3 = grid.getTile(3, 0);
         assertEquals(originalTile.value, t3.value);
         assertTrue(grid.getTile(3, 3) == null);
 
         //RIGHT, x=3,y=3 again
-        grid.moveTile(3, 2, Playfield.Direction.RIGHT);
+        grid.moveTile(3, 0, Playfield.Direction.RIGHT);
         final String s5 = dump(grid);
         assertEquals("XXXX\nXXXX\nXXXX\nXXX2\n", s5);
-        Tile t4 = grid.getTile(3, 3);
+        final Tile t4 = grid.getTile(3, 3);
         assertEquals(originalTile.value, t4.value);
-        assertTrue(grid.getTile(3, 2) == null);
+        assertTrue(grid.getTile(3, 0) == null);
     }
 
     @Test
@@ -90,12 +89,6 @@ public class PlayfieldTest {
         assertEquals(2, grid.getTile(3, 3).value);
     }
 
-    private String dump(Playfield grid) throws IOException {
-        final ByteArrayOutputStream bos1 = new ByteArrayOutputStream();
-        grid.print(new PrintWriter(bos1));
-        return bos1.toString();
-    }
-
     @Test
     public void playfieldCanMoveATileOnAnotherTileWithSameValue() {
         final Playfield grid = new Playfield(4);
@@ -103,7 +96,7 @@ public class PlayfieldTest {
         grid.addTile(new Tile(3, 3, 2));
         grid.moveTile(3, 3, Playfield.Direction.UP);
 
-        Tile t = grid.getTile(2, 3);
+        final Tile t = grid.getTile(2, 3);
         assertEquals(4, t.value);
         assertTrue(grid.getTile(3, 3) == null);
     }
@@ -115,20 +108,24 @@ public class PlayfieldTest {
         grid.addTile(new Tile(3, 3, 2));
         grid.moveTile(3, 3, Playfield.Direction.UP);
 
-        Tile t1 = grid.getTile(2, 3);
+        final Tile t1 = grid.getTile(2, 3);
         assertEquals(4, t1.value);
 
-        Tile t2 = grid.getTile(3, 3);
+        final Tile t2 = grid.getTile(3, 3);
         assertEquals(2, t2.value);
     }
 
     @Test
     public void canPrintAPlayfield() throws IOException {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        final Writer out = new PrintWriter(bos);
         final Playfield p = new Playfield(4);
         p.addTile(new Tile(1, 2, 8));
-        p.print(out);
-        assertEquals("XXXX\nXX8X\nXXXX\nXXXX\n", bos.toString());
+        final String s = dump(p);
+        assertEquals("XXXX\nXX8X\nXXXX\nXXXX\n", s);
+    }
+
+    private String dump(Playfield grid) throws IOException {
+        final ByteArrayOutputStream bos1 = new ByteArrayOutputStream();
+        grid.print(new PrintWriter(bos1));
+        return bos1.toString();
     }
 }

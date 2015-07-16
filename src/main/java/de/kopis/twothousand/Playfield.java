@@ -58,43 +58,56 @@ public class Playfield {
             return;
         }
 
-        // tile matched, now move to direction
-        switch (direction) {
-            case UP:
-                move(x, y, x - 1, y);
-                break;
-            case DOWN:
-                move(x, y, x + 1, y);
-                break;
-            case LEFT:
-                move(x, y, x, y - 1);
-                break;
-            case RIGHT:
-                move(x, y, x, y + 1);
-                break;
-        }
+        Tile t = null;
+        do {
+            // tile matched, now move to direction
+            switch (direction) {
+                case UP:
+                    t = move(x, y, x - 1, y);
+                    break;
+                case DOWN:
+                    t = move(x, y, x + 1, y);
+                    break;
+                case LEFT:
+                    t = move(x, y, x, y - 1);
+                    break;
+                case RIGHT:
+                    t = move(x, y, x, y + 1);
+                    break;
+            }
+
+            if (t == null) break;
+            x = t.x;
+            y = t.y;
+        } while (t != null);
+
     }
 
-    private void move(int x, int y, int newX, int newY) {
-        if (newX < 0) return;
-        if (newY < 0) return;
-        if (newX >= maxX) return;
-        if (newY >= maxY) return;
+    private Tile move(int x, int y, int newX, int newY) {
+        if (newX < 0) return null;
+        if (newY < 0) return null;
+        if (newX >= maxX) return null;
+        if (newY >= maxY) return null;
 
         Tile thisTile = getTile(x, y);
         int newValue = thisTile != null ? thisTile.value : 0;
 
         Tile otherTile = getTile(newX, newY);
+        Tile newTile = null;
         if (otherTile != null) {
             if (thisTile.value == otherTile.value) {
                 newValue = thisTile.value + otherTile.value;
+                newTile = new Tile(newX, newY, newValue);
                 removeTile(x, y);
-                addTile(new Tile(newX, newY, newValue));
+                addTile(newTile);
             }
         } else {
             removeTile(x, y);
-            addTile(new Tile(newX, newY, newValue));
+            newTile = new Tile(newX, newY, newValue);
+            addTile(newTile);
         }
+
+        return newTile;
     }
 
     private Tile removeTile(int x, int y) {
