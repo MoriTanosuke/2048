@@ -6,8 +6,14 @@ import java.io.PrintWriter;
 import java.io.Writer;
 
 public class AsciiPlayfield {
+    private final ScoreCalculator calculator;
+
+    public AsciiPlayfield(ScoreCalculator scoreCalculator) {
+        this.calculator = scoreCalculator;
+    }
+
     /**
-     * @see #print(OutputStream, PlayfieldControl)
+     * @see #print(Writer, Playfield, PlayfieldControl)
      */
     public void print(final OutputStream out, final Playfield pf, final PlayfieldControl control) throws IOException {
         print(new PrintWriter(out), pf, control);
@@ -35,6 +41,8 @@ public class AsciiPlayfield {
         }
         out.write(control.getDescription());
         out.write("\n");
+        //out.write(String.format("Your score: %d", calculator.calculateScore(pf)));
+        //out.write("\n");
         out.flush();
     }
 }

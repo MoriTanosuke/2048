@@ -9,12 +9,12 @@ public class Game {
 
     public static void main(String... args) throws IOException, InterruptedException {
         // TODO configure the playfield size via args later
-        new Game(new AsciiPlayfield(), 4).start();
+        new Game(new AsciiPlayfield(new ScoreCalculator()), 4).start();
     }
 
     public Game(final AsciiPlayfield display, int size) {
         this.display = display;
-        playfield = new Playfield(size);
+        playfield = new Playfield(4);
         playfield.addRandomTile();
         controls = new KeyboardPlayfieldControl();
     }

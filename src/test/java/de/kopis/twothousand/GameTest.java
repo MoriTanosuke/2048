@@ -25,7 +25,7 @@ public class GameTest {
 
     @Test
     public void testASpecificState() throws IOException {
-        final AsciiPlayfield ascii = new AsciiPlayfield();
+        final AsciiPlayfield ascii = new AsciiPlayfield(new ScoreCalculator());
         final Playfield p = new Playfield(4);
 
         // initial state
@@ -67,7 +67,7 @@ public class GameTest {
 
     @Test
     public void testASpecificState2() throws IOException {
-        final AsciiPlayfield ascii = new AsciiPlayfield();
+        final AsciiPlayfield ascii = new AsciiPlayfield(new ScoreCalculator());
         final Playfield p = new Playfield(4);
 
         p.addTile(new Tile(0, 3, 2));

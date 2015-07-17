@@ -11,6 +11,8 @@ import static org.junit.Assert.assertTrue;
 
 public class PlayfieldTest {
 
+    private ScoreCalculator scoreCalculator = new ScoreCalculator();
+
     private PlayfieldControl controls = new PlayfieldControl() {
         @Override
         public boolean run(Playfield playfield) {
@@ -171,7 +173,7 @@ public class PlayfieldTest {
 
     private String dump(Playfield grid) throws IOException {
         final ByteArrayOutputStream bos1 = new ByteArrayOutputStream();
-        new AsciiPlayfield().print(new PrintWriter(bos1), grid, controls);
+        new AsciiPlayfield(scoreCalculator).print(new PrintWriter(bos1), grid, controls);
         return bos1.toString();
     }
 }
