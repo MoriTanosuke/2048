@@ -30,7 +30,15 @@ public class Playfield {
         } while (getTile(x, y) != null);
 
         logger.info(String.format("Adding random tile to %d,%d", x, y));
-        addTile(new Tile(x, y, 2));
+        addTile(new Tile(x, y, getStartValue()));
+    }
+
+    private int getStartValue() {
+        final Random r = new Random(System.nanoTime());
+        if (r.nextDouble() > 0.9) {
+            return 4;
+        }
+        return 2;
     }
 
     public boolean hasAvailableSlots() {

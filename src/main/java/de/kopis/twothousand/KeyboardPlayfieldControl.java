@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 public class KeyboardPlayfieldControl implements PlayfieldControl {
     private static final Logger logger = LoggerFactory.getLogger(KeyboardPlayfieldControl.class);
@@ -30,17 +31,19 @@ public class KeyboardPlayfieldControl implements PlayfieldControl {
     }
 
     private Direction parse() throws IOException {
-        int line = System.in.read();
+        Scanner scanner = new Scanner(System.in);
+        String line = scanner.next();
+
         switch (line) {
-            case 'w':
+            case "w":
                 return Direction.UP;
-            case 's':
+            case "s":
                 return Direction.DOWN;
-            case 'a':
+            case "a":
                 return Direction.LEFT;
-            case 'd':
+            case "d":
                 return Direction.RIGHT;
-            case 'q':
+            case "q":
             default:
                 return null;
         }
