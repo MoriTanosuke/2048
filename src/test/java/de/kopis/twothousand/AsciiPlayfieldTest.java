@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class AsciiPlayfieldTest {
 
@@ -17,7 +17,7 @@ public class AsciiPlayfieldTest {
 
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         final AsciiPlayfield ascii = new AsciiPlayfield();
-        ascii.print(out, p);
-        assertEquals("   X   X   X   X\n   X   X   8   X\n   X   X   X   X\n   X   X   X   X\n", out.toString());
+        ascii.print(out, p, new KeyboardPlayfieldControl());
+        assertTrue(out.toString().startsWith("   X   X   X   X\n   X   X   8   X\n   X   X   X   X\n   X   X   X   X\n"));
     }
 }

@@ -10,13 +10,6 @@ import java.util.Random;
 public class Playfield {
     private static final Logger logger = LoggerFactory.getLogger(Playfield.class);
 
-    public enum Direction {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT
-    }
-
     public final int maxX;
     public final int maxY;
     private List<Tile> tiles = new ArrayList<Tile>();
@@ -50,6 +43,11 @@ public class Playfield {
      */
     public void move(final Direction direction) {
         logger.info("Moving playfield {}", direction);
+
+        if (direction == null) {
+            // don't move
+            return;
+        }
 
         // reset all moved tiles
         for (Tile t : tiles) {

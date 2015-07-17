@@ -1,13 +1,27 @@
 package de.kopis.twothousand;
 
-import junit.framework.TestCase;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class GameTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+
+public class GameTest {
+
+    private PlayfieldControl controls = new PlayfieldControl() {
+        @Override
+        public boolean run(Playfield playfield) {
+            return false;
+        }
+
+        @Override
+        public String getDescription() {
+            // return empty string for easy asserts on playfield state
+            return "";
+        }
+    };
 
     @Test
     public void testASpecificState() throws IOException {
@@ -27,23 +41,28 @@ public class GameTest extends TestCase {
         // X X X 4
         // X X X 2
         System.out.println();
-        ascii.print(new PrintWriter(System.out), p);
-        p.move(Playfield.Direction.RIGHT);
+        ascii.print(new PrintWriter(System.out), p, controls);
+        p.move(Direction.RIGHT);
 
         // X X 2 16
         // X X X 4
         // X X X 4
         // X X X 2
         System.out.println("RIGHT");
-        ascii.print(new PrintWriter(System.out), p);
+        ascii.print(new PrintWriter(System.out), p, controls);
 
         // X X X X
         // X X X 16
         // X X X 8
         // X X 2 2
-        p.move(Playfield.Direction.DOWN);
+        p.move(Direction.DOWN);
         System.out.println("DOWN");
-        ascii.print(new PrintWriter(System.out), p);
+        ascii.print(new PrintWriter(System.out), p, controls);
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ascii.print(new PrintWriter(bos), p, controls);
+        System.out.println(bos);
+        assertEquals("   X   X   X   X\n   X   X   X  16\n   X   X   X   8\n   X   X   2   2\n\n", bos.toString());
     }
 
 
@@ -62,8 +81,8 @@ public class GameTest extends TestCase {
         // X X X 2
         // X X X 2
         System.out.println();
-        ascii.print(new PrintWriter(System.out), p);
-        p.move(Playfield.Direction.DOWN);
+        ascii.print(new PrintWriter(System.out), p, controls);
+        p.move(Direction.DOWN);
 
         // X X X X
         // X X X X
@@ -71,9 +90,9 @@ public class GameTest extends TestCase {
         // X X X 4
         System.out.println("DOWN");
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ascii.print(new PrintWriter(bos), p);
+        ascii.print(new PrintWriter(bos), p, controls);
         System.out.println(bos);
 
-        assertEquals("   X   X   X   X\n   X   X   X   X\n   X   X   X   4\n   X   X   X   4\n", bos.toString());
+        assertEquals("   X   X   X   X\n   X   X   X   X\n   X   X   X   4\n   X   X   X   4\n\n", bos.toString());
     }
 }

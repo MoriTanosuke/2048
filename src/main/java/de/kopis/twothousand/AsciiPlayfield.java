@@ -7,19 +7,21 @@ import java.io.Writer;
 
 public class AsciiPlayfield {
     /**
-     * @see #print(OutputStream, Playfield)
+     * @see #print(OutputStream, PlayfieldControl)
      */
-    public void print(final OutputStream out, final Playfield pf) throws IOException {
-        print(new PrintWriter(out), pf);
+    public void print(final OutputStream out, final Playfield pf, final PlayfieldControl control) throws IOException {
+        print(new PrintWriter(out), pf, control);
     }
 
     /**
      * Prints the whole playfield using the given {@link Writer}.
      *
-     * @param out {@link Writer} to use for printing. Is flushed after playfield is written.
+     * @param out     {@link Writer} to use for printing. Is flushed after playfield is written
+     * @param pf      {@link Playfield} to display
+     * @param control {@link PlayfieldControl} to display to player
      * @throws IOException
      */
-    public void print(final Writer out, final Playfield pf) throws IOException {
+    public void print(final Writer out, final Playfield pf, final PlayfieldControl control) throws IOException {
         for (int x = 0; x < pf.maxX; x++) {
             for (int y = 0; y < pf.maxY; y++) {
                 Tile t = pf.getTile(x, y);
@@ -31,6 +33,8 @@ public class AsciiPlayfield {
             }
             out.write("\n");
         }
+        out.write(control.getDescription());
+        out.write("\n");
         out.flush();
     }
 }
