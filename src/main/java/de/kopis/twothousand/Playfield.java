@@ -77,8 +77,8 @@ public class Playfield {
                 }
                 break;
             case RIGHT:
-                for (int x = 0; x < maxX; x++) {
-                    for (int y = 0; y < maxY; y++) {
+                for (int x = maxX; x >= 0; x--) {
+                    for (int y = maxY; y >= 0; y--) {
                         final Tile originalTile = getTile(x, y);
                         do {
                             moveTile(x, y, direction);
