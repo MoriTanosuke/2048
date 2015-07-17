@@ -12,4 +12,5 @@ Open a command line and execute
 
 * Random tiles are added anywhere, should be only at the field border
 * Random tiles are added even if the field couldn't be moved
+* There is no score yet
 * Game has no winning state :laughing:
