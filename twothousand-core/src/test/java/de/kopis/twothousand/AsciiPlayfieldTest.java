@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 public class AsciiPlayfieldTest {
 
@@ -18,6 +18,10 @@ public class AsciiPlayfieldTest {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         final AsciiPlayfield ascii = new AsciiPlayfield(new ScoreCalculator());
         ascii.print(out, p, new KeyboardPlayfieldControl());
-        assertTrue(out.toString().startsWith("   X   X   X   X\n   X   X   8   X\n   X   X   X   X\n   X   X   X   X\n"));
+        final String rawPlayfield = out.toString();
+
+        // extract tile value
+        final String value = rawPlayfield.substring(25, 29);
+        assertEquals("   8", value);
     }
 }

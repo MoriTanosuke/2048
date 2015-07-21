@@ -1,5 +1,7 @@
 package de.kopis.twothousand;
 
+import org.apache.wicket.markup.html.basic.MultiLineLabel;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,8 +24,14 @@ public class TestHomePage {
 
         // check that the footer is rendered properly
         tester.assertContains("6.20.0");
-        //TODO check that the rendered playfield is present
-        //tester.assertContains("<td>X</td>");
-        tester.assertContains("No playfield initialized");
+
+        // check that the rendered playfield is present
+        tester.assertComponent("tiles", MultiLineLabel.class);
+
+        // assert that controls are present
+        tester.assertComponent("up", Link.class);
+        tester.assertComponent("down", Link.class);
+        tester.assertComponent("left", Link.class);
+        tester.assertComponent("right", Link.class);
     }
 }

@@ -15,7 +15,6 @@ public class Game {
     public Game(final AsciiPlayfield display, int size) {
         this.display = display;
         playfield = new Playfield(4);
-        playfield.addRandomTile();
         controls = new KeyboardPlayfieldControl();
     }
 

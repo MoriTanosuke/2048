@@ -3,6 +3,7 @@ package de.kopis.twothousand;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ScoreCalculatorTest {
     @Test
@@ -10,7 +11,8 @@ public class ScoreCalculatorTest {
         final Playfield playfield = new Playfield(4);
         final ScoreCalculator calculator = new ScoreCalculator();
         int score = calculator.calculateScore(playfield);
-        assertEquals(0, score);
+        // empty playfield can only have a score of 2 or 4
+        assertTrue(score == 2 || score == 4);
     }
 
     @Test

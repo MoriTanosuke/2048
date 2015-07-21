@@ -12,11 +12,12 @@ public class Playfield {
 
     public final int maxX;
     public final int maxY;
-    private List<Tile> tiles = new ArrayList<Tile>();
+    private List<Tile> tiles = new ArrayList<>();
 
     public Playfield(int size) {
         this.maxX = size;
         this.maxY = size;
+        addRandomTile();
     }
 
     public void addRandomTile() {
@@ -104,6 +105,21 @@ public class Playfield {
                     }
                 }
                 break;
+        }
+
+        //TODO if moved, add a new random tile
+        boolean wasAtLeastOneTileMoved = false;
+        for (Tile t : tiles) {
+            if (t.isMoved()) {
+                // one tile was moved, stop looking...
+                wasAtLeastOneTileMoved = true;
+                break;
+            }
+        }
+        logger.debug("Playfield moved? {}", wasAtLeastOneTileMoved);
+        if (wasAtLeastOneTileMoved) {
+            // at least one tile was moved, add new random tile
+            addRandomTile();
         }
     }
 
