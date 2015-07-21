@@ -4,7 +4,7 @@ First run for a simple ASCII 2048 game.
 
 # Run this game
 
-Open a command line and execute
+Open a command line in submodule *twothousand-core* and execute
 
     mvn compile exec:java
 
