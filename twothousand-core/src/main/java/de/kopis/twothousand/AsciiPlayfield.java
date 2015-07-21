@@ -5,7 +5,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Writer;
 
-public class AsciiPlayfield {
+public class AsciiPlayfield implements DisplayPlayfield {
     private final ScoreCalculator calculator;
 
     public AsciiPlayfield(ScoreCalculator scoreCalculator) {
@@ -15,6 +15,7 @@ public class AsciiPlayfield {
     /**
      * @see #print(Writer, Playfield, PlayfieldControl)
      */
+    @Override
     public void print(final OutputStream out, final Playfield pf, final PlayfieldControl control) throws IOException {
         print(new PrintWriter(out), pf, control);
     }

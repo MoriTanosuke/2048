@@ -11,9 +11,13 @@ public class KeyboardPlayfieldControl implements PlayfieldControl {
 
     @Override
     public boolean run(Playfield playfield) {
-        // TODO get direction
+        return run(KeyboardPlayfieldControl::parse, playfield);
+    }
+
+    @Override
+    public boolean run(PlayfieldControlParse parseMethod, Playfield playfield) {
         try {
-            Direction direction = parse();
+            Direction direction = parseMethod.parse();
             if (direction == null) {
                 // we want to quit
                 return false;
@@ -30,7 +34,7 @@ public class KeyboardPlayfieldControl implements PlayfieldControl {
         return "w = UP, s = DOWN, a = LEFT, d = RIGHT, q (or any other key) = QUIT";
     }
 
-    private Direction parse() throws IOException {
+    private static Direction parse() throws IOException {
         Scanner scanner = new Scanner(System.in);
         String line = scanner.next();
 

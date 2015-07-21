@@ -20,6 +20,11 @@ public class PlayfieldTest {
         }
 
         @Override
+        public boolean run(PlayfieldControlParse parseMethod, Playfield playfield) {
+            return false;
+        }
+
+        @Override
         public String getDescription() {
             // return empty string for easy asserts on playfield state
             return "";
