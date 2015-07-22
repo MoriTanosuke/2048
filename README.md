@@ -13,5 +13,5 @@ Open a command line in submodule *twothousand-core* and execute
 * Random tiles are added anywhere, should be only at the field border
 * Random tiles are added even if the field couldn't be moved
 * Random tiles are added *before* moving :question:
-* There is no score yet
-* Game has no winning state :laughing:
+* ~~There is no score yet~~
+* ~~Game has no winning state :laughing:~~ Winning state is displayed with score.
