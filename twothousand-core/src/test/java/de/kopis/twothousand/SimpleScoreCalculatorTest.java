@@ -3,12 +3,13 @@ package de.kopis.twothousand;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-public class ScoreCalculatorTest {
+public class SimpleScoreCalculatorTest {
     @Test
     public void canCalculateScoreOnEmptyPlayfield() {
         final Playfield playfield = new Playfield(4);
-        final ScoreCalculator calculator = new ScoreCalculator();
+        final SimpleScoreCalculator calculator = new SimpleScoreCalculator();
         int score = calculator.calculateScore(playfield);
         assertEquals(0, score);
     }
@@ -28,8 +29,16 @@ public class ScoreCalculatorTest {
         // replace one field with a higher value
         playfield.addTile(new Tile(0, 0, highValue));
 
-        final ScoreCalculator calculator = new ScoreCalculator();
+        final SimpleScoreCalculator calculator = new SimpleScoreCalculator();
         int score = calculator.calculateScore(playfield);
         assertEquals(15 * lowValue + highValue, score);
+    }
+
+    @Test
+    public void recognizesAWinningGame() {
+        final Playfield playfield = new Playfield(4);
+        playfield.addTile(new Tile(1, 1, 2048));
+        final SimpleScoreCalculator calculator = new SimpleScoreCalculator();
+        assertTrue(calculator.hasWon(playfield));
     }
 }

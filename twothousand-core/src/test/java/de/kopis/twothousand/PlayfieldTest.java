@@ -10,8 +10,22 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class PlayfieldTest {
+    private ScoreCalculator calculator = new ScoreCalculator() {
+        @Override
+        public int calculateScore(Playfield playfield) {
+            return 0;
+        }
 
-    private ScoreCalculator scoreCalculator = new ScoreCalculator();
+        @Override
+        public boolean hasWon(Playfield playfield) {
+            return false;
+        }
+
+        @Override
+        public String getScoreDescription(Playfield playfield) {
+            return "";
+        }
+    };
 
     private PlayfieldControl controls = new PlayfieldControl() {
         @Override
@@ -41,14 +55,14 @@ public class PlayfieldTest {
         assertEquals("   X   X   X   X\n" +
                 "   X   X   X   X\n" +
                 "   X   X   X   X\n" +
-                "   X   X   X   2\n\n", s1);
+                "   X   X   X   2\n\n\n", s1);
 
         grid.move(Direction.UP);
         final String s2 = dump(grid);
         assertEquals("   X   X   X   2\n" +
                 "   X   X   X   X\n" +
                 "   X   X   X   X\n" +
-                "   X   X   X   X\n\n", s2);
+                "   X   X   X   X\n\n\n", s2);
         final Tile t1 = grid.getTile(0, 3);
         assertEquals(originalTile.value, t1.value);
         assertTrue(grid.getTile(3, 3) == null);
@@ -58,7 +72,7 @@ public class PlayfieldTest {
         assertEquals("   X   X   X   X\n" +
                 "   X   X   X   X\n" +
                 "   X   X   X   X\n" +
-                "   X   X   X   2\n\n", s3);
+                "   X   X   X   2\n\n\n", s3);
         final Tile t2 = grid.getTile(3, 3);
         assertEquals(originalTile.value, t2.value);
         assertTrue(grid.getTile(2, 3) == null);
@@ -68,7 +82,7 @@ public class PlayfieldTest {
         assertEquals("   X   X   X   X\n" +
                 "   X   X   X   X\n" +
                 "   X   X   X   X\n" +
-                "   2   X   X   X\n\n", s4);
+                "   2   X   X   X\n\n\n", s4);
         final Tile t3 = grid.getTile(3, 0);
         assertEquals(originalTile.value, t3.value);
         assertTrue(grid.getTile(3, 3) == null);
@@ -78,7 +92,7 @@ public class PlayfieldTest {
         assertEquals("   X   X   X   X\n" +
                 "   X   X   X   X\n" +
                 "   X   X   X   X\n" +
-                "   X   X   X   2\n\n", s5);
+                "   X   X   X   2\n\n\n", s5);
         final Tile t4 = grid.getTile(3, 3);
         assertEquals(originalTile.value, t4.value);
         assertTrue(grid.getTile(3, 0) == null);
@@ -96,14 +110,14 @@ public class PlayfieldTest {
         assertEquals("   X   X   X   4\n" +
                 "   X   X   X   X\n" +
                 "   X   X   X   X\n" +
-                "   X   X   X   2\n\n", s1);
+                "   X   X   X   2\n\n\n", s1);
 
         grid.move(Direction.UP);
         final String s2 = dump(grid);
         assertEquals("   X   X   X   4\n" +
                 "   X   X   X   2\n" +
                 "   X   X   X   X\n" +
-                "   X   X   X   X\n\n", s2);
+                "   X   X   X   X\n\n\n", s2);
         final Tile t1 = grid.getTile(0, 3);
         assertEquals(blockingTile.value, t1.value);
         final Tile t2 = grid.getTile(1, 3);
@@ -119,13 +133,13 @@ public class PlayfieldTest {
         grid.addTile(blockingTile);
 
         final String s1 = dump(grid);
-        assertEquals("   X   X   X   4\n   X   X   X   X\n   X   X   X   X\n   X   X   X   2\n\n", s1);
+        assertEquals("   X   X   X   4\n   X   X   X   X\n   X   X   X   X\n   X   X   X   2\n\n\n", s1);
 
         // move the whole playfield
         grid.move(Direction.UP);
 
         final String s2 = dump(grid);
-        assertEquals("   X   X   X   4\n   X   X   X   2\n   X   X   X   X\n   X   X   X   X\n\n", s2);
+        assertEquals("   X   X   X   4\n   X   X   X   2\n   X   X   X   X\n   X   X   X   X\n\n\n", s2);
         final Tile t1 = grid.getTile(0, 3);
         assertEquals(blockingTile.value, t1.value);
         final Tile t2 = grid.getTile(1, 3);
@@ -178,7 +192,7 @@ public class PlayfieldTest {
 
     private String dump(Playfield grid) throws IOException {
         final ByteArrayOutputStream bos1 = new ByteArrayOutputStream();
-        new AsciiPlayfield(scoreCalculator).print(new PrintWriter(bos1), grid, controls);
+        new AsciiPlayfield(calculator).print(new PrintWriter(bos1), grid, controls);
         return bos1.toString();
     }
 }

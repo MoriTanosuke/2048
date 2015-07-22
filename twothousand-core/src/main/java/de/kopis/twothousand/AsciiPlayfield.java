@@ -42,8 +42,11 @@ public class AsciiPlayfield implements DisplayPlayfield {
         }
         out.write(control.getDescription());
         out.write("\n");
-        //out.write(String.format("Your score: %d", calculator.calculateScore(pf)));
-        //out.write("\n");
+        out.write(calculator.getScoreDescription(pf));
+        if (calculator.hasWon(pf)) {
+            out.write("You have won the game. Feel free to continue.");
+        }
+        out.write("\n");
         out.flush();
     }
 }

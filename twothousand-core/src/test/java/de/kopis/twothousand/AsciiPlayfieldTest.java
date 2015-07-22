@@ -16,7 +16,7 @@ public class AsciiPlayfieldTest {
         p.addTile(new Tile(1, 2, 8));
 
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
-        final AsciiPlayfield ascii = new AsciiPlayfield(new ScoreCalculator());
+        final AsciiPlayfield ascii = new AsciiPlayfield(new SimpleScoreCalculator());
         ascii.print(out, p, new KeyboardPlayfieldControl());
         assertTrue(out.toString().startsWith("   X   X   X   X\n   X   X   8   X\n   X   X   X   X\n   X   X   X   X\n"));
     }
