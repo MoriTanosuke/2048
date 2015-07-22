@@ -1,4 +1,7 @@
-package de.kopis.twothousand;
+package de.kopis.twothousand.scores;
+
+import de.kopis.twothousand.models.Playfield;
+import de.kopis.twothousand.models.Tile;
 
 public class SimpleScoreCalculator implements ScoreCalculator {
     public int calculateScore(Playfield playfield) {

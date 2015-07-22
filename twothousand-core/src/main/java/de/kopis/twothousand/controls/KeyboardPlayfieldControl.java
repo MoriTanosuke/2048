@@ -1,5 +1,7 @@
-package de.kopis.twothousand;
+package de.kopis.twothousand.controls;
 
+import de.kopis.twothousand.models.Direction;
+import de.kopis.twothousand.models.Playfield;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

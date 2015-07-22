@@ -1,4 +1,9 @@
-package de.kopis.twothousand;
+package de.kopis.twothousand.displays;
+
+import de.kopis.twothousand.controls.PlayfieldControl;
+import de.kopis.twothousand.models.Playfield;
+import de.kopis.twothousand.models.Tile;
+import de.kopis.twothousand.scores.ScoreCalculator;
 
 import java.io.IOException;
 import java.io.OutputStream;

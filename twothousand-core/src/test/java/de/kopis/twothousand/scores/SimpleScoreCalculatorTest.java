@@ -1,5 +1,7 @@
-package de.kopis.twothousand;
+package de.kopis.twothousand.scores;
 
+import de.kopis.twothousand.models.Playfield;
+import de.kopis.twothousand.models.Tile;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

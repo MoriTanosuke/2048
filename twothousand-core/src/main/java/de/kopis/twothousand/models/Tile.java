@@ -1,4 +1,4 @@
-package de.kopis.twothousand;
+package de.kopis.twothousand.models;
 
 
 public class Tile {

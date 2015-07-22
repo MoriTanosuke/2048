@@ -1,5 +1,11 @@
 package de.kopis.twothousand;
 
+import de.kopis.twothousand.controls.KeyboardPlayfieldControl;
+import de.kopis.twothousand.controls.PlayfieldControl;
+import de.kopis.twothousand.displays.AsciiPlayfield;
+import de.kopis.twothousand.models.Playfield;
+import de.kopis.twothousand.scores.SimpleScoreCalculator;
+
 import java.io.IOException;
 
 public class Game {

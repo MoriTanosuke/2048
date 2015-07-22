@@ -1,4 +1,6 @@
-package de.kopis.twothousand;
+package de.kopis.twothousand.scores;
+
+import de.kopis.twothousand.models.Playfield;
 
 public interface ScoreCalculator {
     /**

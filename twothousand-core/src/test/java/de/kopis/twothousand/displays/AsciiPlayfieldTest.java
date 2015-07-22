@@ -1,5 +1,9 @@
-package de.kopis.twothousand;
+package de.kopis.twothousand.displays;
 
+import de.kopis.twothousand.controls.KeyboardPlayfieldControl;
+import de.kopis.twothousand.models.Playfield;
+import de.kopis.twothousand.models.Tile;
+import de.kopis.twothousand.scores.SimpleScoreCalculator;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;

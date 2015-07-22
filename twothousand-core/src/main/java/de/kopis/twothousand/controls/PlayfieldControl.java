@@ -1,6 +1,7 @@
-package de.kopis.twothousand;
+package de.kopis.twothousand.controls;
 
-import java.io.IOException;
+import de.kopis.twothousand.models.Direction;
+import de.kopis.twothousand.models.Playfield;
 
 /**
  * Implement this interface if you want to add a new control scheme.

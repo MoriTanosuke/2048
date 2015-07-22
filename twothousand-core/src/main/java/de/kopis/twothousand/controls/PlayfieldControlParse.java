@@ -1,4 +1,6 @@
-package de.kopis.twothousand;
+package de.kopis.twothousand.controls;
+
+import de.kopis.twothousand.models.Direction;
 
 import java.io.IOException;
 
