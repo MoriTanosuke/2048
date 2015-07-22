@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -196,7 +195,7 @@ public class PlayfieldTest {
 
     private String dump(Playfield grid) throws IOException {
         final ByteArrayOutputStream bos1 = new ByteArrayOutputStream();
-        new AsciiPlayfield(calculator).print(new PrintWriter(bos1), grid, controls);
+        new AsciiPlayfield(calculator).print(bos1, grid, controls);
         return bos1.toString();
     }
 }

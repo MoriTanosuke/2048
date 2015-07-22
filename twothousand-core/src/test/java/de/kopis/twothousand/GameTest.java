@@ -11,7 +11,6 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import static org.junit.Assert.assertEquals;
 
@@ -109,7 +108,7 @@ public class GameTest {
         // X X X 2
         // X X X 2
         System.out.println();
-        ascii.print(new PrintWriter(System.out), p, controls);
+        ascii.print(System.out, p, controls);
         p.move(Direction.DOWN);
 
         // X X X X
@@ -118,7 +117,7 @@ public class GameTest {
         // X X X 4
         System.out.println("DOWN");
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ascii.print(new PrintWriter(bos), p, controls);
+        ascii.print(bos, p, controls);
         System.out.println(bos);
 
         assertEquals("   X   X   X   X\n   X   X   X   X\n   X   X   X   4\n   X   X   X   4\n\n\n", bos.toString());

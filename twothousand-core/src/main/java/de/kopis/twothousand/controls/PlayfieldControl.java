@@ -15,8 +15,8 @@ public interface PlayfieldControl {
     /**
      * Get player input using the provided "parseMethod" and move the {@link Playfield}.
      *
-     * @param parseMethod  method to get a valid {@link Direction} from the player
-     * @param playfield {@link Playfield} to control
+     * @param parseMethod method to get a valid {@link Direction} from the player
+     * @param playfield   {@link Playfield} to control
      * @return <code>true</code> if {@link Playfield} was moved, else <code>false</code>
      */
     boolean run(PlayfieldControlParse parseMethod, Playfield playfield);
