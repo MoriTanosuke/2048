@@ -75,8 +75,8 @@ public class HomePage extends WebPage {
     public static Direction parse() {
         final StringValue direction = parameters.get("direction");
         Direction d = null;
-        if(!direction.isEmpty()) {
-            switch(direction.toString()) {
+        if (!direction.isEmpty()) {
+            switch (direction.toString()) {
                 case "up":
                     d = Direction.UP;
                     break;

@@ -10,8 +10,8 @@ import java.util.Random;
 public class Playfield {
     private static final Logger logger = LoggerFactory.getLogger(Playfield.class);
 
-    public final int maxX;
-    public final int maxY;
+    private final int maxX;
+    private final int maxY;
     private List<Tile> tiles = new ArrayList<Tile>();
 
     public Playfield(int size) {
@@ -25,8 +25,8 @@ public class Playfield {
         int x = 0;
         int y = 0;
         do {
-            x = 1 + r.nextInt(maxX - 1);
-            y = 1 + r.nextInt(maxY - 1);
+            x = 1 + r.nextInt(getMaxX() - 1);
+            y = 1 + r.nextInt(getMaxY() - 1);
         } while (getTile(x, y) != null);
 
         logger.info(String.format("Adding random tile to %d,%d", x, y));
@@ -42,8 +42,8 @@ public class Playfield {
     }
 
     public boolean hasAvailableSlots() {
-        logger.info(String.format("Placed tiles: %d, Max: %d", tiles.size(), maxX * maxY));
-        return tiles.size() <= maxX * maxY;
+        logger.info(String.format("Placed tiles: %d, Max: %d", tiles.size(), getMaxX() * getMaxY()));
+        return tiles.size() <= getMaxX() * getMaxY();
     }
 
     /**
@@ -65,8 +65,8 @@ public class Playfield {
         // move all fields, start point depends on direction
         switch (direction) {
             case DOWN:
-                for (int x = maxX; x >= 0; x--) {
-                    for (int y = 0; y < maxY; y++) {
+                for (int x = getMaxX(); x >= 0; x--) {
+                    for (int y = 0; y < getMaxY(); y++) {
                         final Tile originalTile = getTile(x, y);
                         do {
                             moveTile(x, y, direction);
@@ -75,8 +75,8 @@ public class Playfield {
                 }
                 break;
             case UP:
-                for (int x = 0; x < maxX; x++) {
-                    for (int y = 0; y < maxY; y++) {
+                for (int x = 0; x < getMaxX(); x++) {
+                    for (int y = 0; y < getMaxY(); y++) {
                         final Tile originalTile = getTile(x, y);
                         do {
                             moveTile(x, y, direction);
@@ -85,8 +85,8 @@ public class Playfield {
                 }
                 break;
             case RIGHT:
-                for (int x = maxX; x >= 0; x--) {
-                    for (int y = maxY; y >= 0; y--) {
+                for (int x = getMaxX(); x >= 0; x--) {
+                    for (int y = getMaxY(); y >= 0; y--) {
                         final Tile originalTile = getTile(x, y);
                         do {
                             moveTile(x, y, direction);
@@ -95,8 +95,8 @@ public class Playfield {
                 }
                 break;
             case LEFT:
-                for (int x = 0; x < maxX; x++) {
-                    for (int y = maxY; y >= 0; y--) {
+                for (int x = 0; x < getMaxX(); x++) {
+                    for (int y = getMaxY(); y >= 0; y--) {
                         final Tile originalTile = getTile(x, y);
                         do {
                             moveTile(x, y, direction);
@@ -151,7 +151,7 @@ public class Playfield {
     }
 
     private Tile move(final int x, final int y, final int newX, final int newY) {
-        if (newX < 0 || newY < 0 || newX >= maxX || newY >= maxY) {
+        if (newX < 0 || newY < 0 || newX >= getMaxX() || newY >= getMaxY()) {
             Tile t = getTile(x, y);
             t.setMoved(true);
             return null;
@@ -193,8 +193,8 @@ public class Playfield {
         if (tile.x < 0) throw new IllegalArgumentException("'x' too small");
         if (tile.y < 0) throw new IllegalArgumentException("'x' too small");
 
-        if (tile.x >= maxX) throw new IllegalArgumentException("'x' too large");
-        if (tile.y >= maxY) throw new IllegalArgumentException("'y' too large");
+        if (tile.x >= getMaxX()) throw new IllegalArgumentException("'x' too large");
+        if (tile.y >= getMaxY()) throw new IllegalArgumentException("'y' too large");
 
         logger.info("Adding tile {}", tile);
         Tile oldTile = getTile(tile.x, tile.y);
@@ -230,5 +230,13 @@ public class Playfield {
             }
         }
         return null;
+    }
+
+    public int getMaxX() {
+        return maxX;
+    }
+
+    public int getMaxY() {
+        return maxY;
     }
 }

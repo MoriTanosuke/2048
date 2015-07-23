@@ -6,8 +6,8 @@ import de.kopis.twothousand.models.Tile;
 public class SimpleScoreCalculator implements ScoreCalculator {
     public int calculateScore(Playfield playfield) {
         int score = 0;
-        for (int x = 0; x < playfield.maxX; x++) {
-            for (int y = 0; y < playfield.maxY; y++) {
+        for (int x = 0; x < playfield.getMaxX(); x++) {
+            for (int y = 0; y < playfield.getMaxY(); y++) {
                 Tile t = playfield.getTile(x, y);
                 if (t != null) {
                     score += t.value;
@@ -19,8 +19,8 @@ public class SimpleScoreCalculator implements ScoreCalculator {
 
     public boolean hasWon(Playfield playfield) {
         boolean won = false;
-        for (int x = 0; x < playfield.maxX; x++) {
-            for (int y = 0; y < playfield.maxY; y++) {
+        for (int x = 0; x < playfield.getMaxX(); x++) {
+            for (int y = 0; y < playfield.getMaxY(); y++) {
                 Tile t = playfield.getTile(x, y);
                 if (t != null && t.value == 2048) {
                     won = true;

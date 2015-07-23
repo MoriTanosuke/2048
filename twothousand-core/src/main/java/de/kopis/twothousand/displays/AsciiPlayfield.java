@@ -19,8 +19,8 @@ public class AsciiPlayfield implements DisplayPlayfield {
     @Override
     public void print(final OutputStream output, final Playfield pf, final PlayfieldControl control) throws IOException {
         final PrintWriter out = new PrintWriter(output);
-        for (int x = 0; x < pf.maxX; x++) {
-            for (int y = 0; y < pf.maxY; y++) {
+        for (int x = 0; x < pf.getMaxX(); x++) {
+            for (int y = 0; y < pf.getMaxY(); y++) {
                 Tile t = pf.getTile(x, y);
                 if (t != null) {
                     out.write(String.format("%4d", t.value));

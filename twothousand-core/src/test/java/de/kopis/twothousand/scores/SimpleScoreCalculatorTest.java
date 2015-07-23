@@ -23,8 +23,8 @@ public class SimpleScoreCalculatorTest {
 
         final Playfield playfield = new Playfield(4);
         // add all 2s to playfield
-        for (int x = 0; x < playfield.maxX; x++) {
-            for (int y = 0; y < playfield.maxY; y++) {
+        for (int x = 0; x < playfield.getMaxX(); x++) {
+            for (int y = 0; y < playfield.getMaxY(); y++) {
                 playfield.addTile(new Tile(x, y, lowValue));
             }
         }
