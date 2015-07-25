@@ -221,6 +221,14 @@ public class Playfield {
         return null;
     }
 
+    public List<Tile> getRow(int row) {
+        final List<Tile> tiles = new ArrayList<>();
+        for (int y = 0; y < maxY; y++) {
+            tiles.add(getTile(row, y));
+        }
+        return tiles;
+    }
+
     public Tile getTile(int x, int y) {
         //TODO maybe use Optional<Tile> as return value?
         for (Tile t : tiles) {

@@ -8,7 +8,9 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 
+import static java.util.stream.Collectors.joining;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -47,6 +49,48 @@ public class PlayfieldTest {
             return "";
         }
     };
+
+    @Test
+    public void playfieldCanReturnARow() {
+        final Playfield grid = new Playfield(4);
+        // 2XXX
+        // X2XX
+        // XX2X
+        // XXX2
+        final Tile originalTile = new Tile(0, 0, 2);
+        grid.addTile(originalTile);
+        final Tile originalTile2 = new Tile(1, 1, 2);
+        grid.addTile(originalTile2);
+        final Tile originalTile3 = new Tile(2, 2, 2);
+        grid.addTile(originalTile3);
+        final Tile originalTile4 = new Tile(3, 3, 2);
+        grid.addTile(originalTile4);
+
+        // get 1st row - 2XXX
+        final List<Tile> tiles1 = grid.getRow(0);
+        final String s1 = tiles1.stream().map(x -> {
+            return x != null ? Integer.toString(x.value) : "X";
+        }).collect(joining(""));
+        assertEquals("2XXX", s1);
+        // get 2nd row - X2XX
+        final List<Tile> tiles2 = grid.getRow(1);
+        final String s2 = tiles2.stream().map(x -> {
+            return x != null ? Integer.toString(x.value) : "X";
+        }).collect(joining(""));
+        assertEquals("X2XX", s2);
+        // get 3rd row - XX2X
+        final List<Tile> tiles3 = grid.getRow(2);
+        final String s3 = tiles3.stream().map(x -> {
+            return x != null ? Integer.toString(x.value) : "X";
+        }).collect(joining(""));
+        assertEquals("XX2X", s3);
+        // get 3rd row - XXX2
+        final List<Tile> tiles4 = grid.getRow(3);
+        final String s4 = tiles4.stream().map(x -> {
+            return x != null ? Integer.toString(x.value) : "X";
+        }).collect(joining(""));
+        assertEquals("XXX2", s4);
+    }
 
     @Test
     public void playfieldCanMoveATileThroughEmptySpaces() throws IOException {
