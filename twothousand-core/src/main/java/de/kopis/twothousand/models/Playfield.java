@@ -27,6 +27,21 @@ public class Playfield {
         do {
             x = 1 + r.nextInt(getMaxX() - 1);
             y = 1 + r.nextInt(getMaxY() - 1);
+
+            //TODO make the tile appear at the border
+            // 50-50 chance to place this top or bottom
+            int border = 0;
+            if (r.nextInt(100) > 50) {
+                border = 1;
+            } else {
+                border = 0;
+            }
+            // 50-50 chance to place this on x/y border
+            if (r.nextInt(100) > 50) {
+                x = (getMaxX() - 1) * border;
+            } else {
+                y = (getMaxY() - 1) * border;
+            }
         } while (getTile(x, y) != null);
 
         logger.info(String.format("Adding random tile to %d,%d", x, y));
@@ -105,6 +120,8 @@ public class Playfield {
                 }
                 break;
         }
+
+        //TODO always add a new random tile after a move - but is this the right place?
     }
 
     /**
