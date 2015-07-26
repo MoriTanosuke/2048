@@ -29,8 +29,10 @@ public class Game {
         display.print(System.out, playfield, controls);
         // go into main game loop
         while (controls.run(playfield)) {
-            display.print(System.out, playfield, controls);
+            // add new random tile BEFORE printing the playfield!
+            //TODO this is a bug, random tile should be always added after movement
             playfield.addRandomTile();
+            display.print(System.out, playfield, controls);
         }
     }
 }
