@@ -15,3 +15,4 @@ Open a command line in submodule *twothousand-core* and execute
 * Random tiles are added *before* moving :question:
 * ~~There is no score yet~~
 * ~~Game has no winning state :laughing:~~ Winning state is displayed with score.
+* Score is not calculated correctly. Currently it's only the sum of all tiles. Should be calculated by adding the value of new merged tiles only.
