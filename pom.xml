@@ -10,8 +10,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>twothousand-core</module>
-        <module>twothousand-web</module>
     </modules>
 
     <properties>
